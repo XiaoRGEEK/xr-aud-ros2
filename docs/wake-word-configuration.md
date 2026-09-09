@@ -2,8 +2,9 @@
 
 ## 当前范围
 
-公开接口允许配置多条唤醒短语，但配置词条不等于替换声学模型。配置只有在系统已经
-安装兼容且许可明确的 KWS backend/model 时才会生效。
+公开接口允许配置多条唤醒短语，但配置词条不等于替换声学模型。当前 wake producer
+仍是 Stage 1 DEV 部署，不属于只安装公开 Runtime/Bridge 后即可使用的功能。配置只有
+在系统已经安装兼容且许可明确的 KWS backend/model 时才会生效。
 
 当前内部验证权重属于 evaluation-only 边界，不能进入本仓库、DEB、系统镜像或公开
 下载。公开产品支持的词条数量、语言和模型包应以对应 Release 说明为准。
@@ -31,7 +32,8 @@ id<TAB>显示文字<TAB>模型 tokens<TAB>boost<TAB>decoder threshold<TAB>true|f
 
 ## 安装与更新
 
-首次创建配置：
+以下操作仅适用于已经由管理员完成 Stage 1 DEV（或未来正式 wake provider）部署的
+系统。普通公开用户不应把创建 TSV 误认为已经安装 KWS。首次创建配置：
 
 ```bash
 sudo install -d -m 0750 -o root -g xraudio /etc/xraudio
@@ -49,14 +51,15 @@ sudo mv /etc/xraudio/stage1-keywords.tsv.new \
   /etc/xraudio/stage1-keywords.tsv
 ```
 
-由对应 Runtime Release 的说明执行配置 reload 或重启。开发版通常使用：
+由对应 Runtime Release 的说明执行配置 reload 或重启。当前 DEV profile 通常使用：
 
 ```bash
 sudo systemctl restart xraudio-stage1-dev.service
 ```
 
-服务名是发布契约的一部分；如果系统安装的是其他 profile，请使用该版本文档给出的
-unit，不要通过模糊匹配批量重启服务。
+此命令不安装 backend/model。服务名是发布契约的一部分；如果系统没有安装 Stage 1
+DEV，命令失败是预期结果。如果安装的是其他 profile，请使用该版本文档给出的 unit，
+不要通过模糊匹配批量重启服务。
 
 ## 验证
 

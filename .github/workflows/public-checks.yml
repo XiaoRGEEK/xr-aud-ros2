@@ -18,5 +18,8 @@ jobs:
         run: |
           sh -n scripts/install.sh
           bash -n scripts/ci_colcon_if_available.sh
+      - name: Run provider-independent formatter tests
+        working-directory: xraudio_examples
+        run: python3 -m unittest discover -s test -v
       - name: Run dependency-aware ROS build
         run: scripts/ci_colcon_if_available.sh

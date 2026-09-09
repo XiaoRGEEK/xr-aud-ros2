@@ -10,7 +10,7 @@ Linux 应当直接枚举 Clean Voice 输入和两路 Speaker 输出，不需要�
 厂商提供的 `xraudio-audio-defaults` 包。它只负责系统音频默认策略，不包含 Raw-8、
 DOA、唤醒、Runtime 或 ROS 2。
 
-## 2. 高级 Runtime 与 ROS 2 Bridge
+## 2. 高级 Runtime 与 ROS 2 Bridge（status / DOA）
 
 管理员应先按照发行渠道提供的说明配置 APT 软件源，再安装：
 
@@ -33,6 +33,11 @@ sudo apt install ./libxraudio0_*.deb \
 Bridge 1.3.0 只读取 Runtime1 system D-Bus。安装包默认不应凭空猜测设备序列号或
 自动打开高级服务；请按发行包中的配置模板填写完整 exact serial，并显式启用服务。
 多设备部署时，每台设备必须使用不同 ROS namespace。
+
+这一安装集合面向已有二进制 provider 的 status/DOA 接入，不包含 Stage 1 KWS
+backend 或模型。`/xraudio/wake` 的类型可以存在，但仅安装上述包不会产生 wake
+事件。当前 wake producer 仍属于单独的 DEV profile，普通公开用户不能从本仓库
+取得它所需的外部模型资产。
 
 ## 3. 构建公开示例
 
@@ -71,6 +76,8 @@ ros2 run xraudio_examples event_monitor --ros-args \
 ```
 
 监视器只订阅事件。它不会启动或停止 Runtime，不会打开设备，也不会更改系统音频。
+在普通公开安装中，应先用 status/DOA 验证链路；wake 只有在对应 DEV/未来正式
+backend 已明确安装并启用时才可验收。
 
 ## 5. 卸载边界
 

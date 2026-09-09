@@ -16,7 +16,7 @@ events such as status, direction of arrival (DOA), and wake phrase direction.
 | Product | Profile | Public host behavior |
 | --- | --- | --- |
 | XR-AUD-01 | Standard Audio | Clean Voice microphone and stereo speaker through standard USB Audio; no advanced Runtime is required. |
-| XR-AUD-02 | Fusion | Standard Audio plus capability-gated Raw Array processing, DOA, and wake-direction events produced by the installed Runtime. |
+| XR-AUD-02 | Fusion | Standard Audio plus capability-gated Raw Array processing and DOA from an installed Runtime. Wake events additionally require the current DEV-only Stage 1 profile and separately supplied backend/model assets. |
 
 Applications must use advertised capabilities. They must not infer support
 from the product name, USB channel count, ALSA card number, or topic presence.
@@ -65,6 +65,9 @@ ros2 launch xraudio_examples monitor.launch.py \
 
 The example is a subscriber only. It does not start the proprietary Runtime,
 open Raw-8, change the default microphone/speaker, or implement DOA/KWS.
+After the binary provider is installed and configured, the public example can
+consume status and DOA. The command above does **not** install or enable a KWS
+backend/model and therefore does not, by itself, produce wake events.
 
 See [Installation](docs/installation.md),
 [devices and capabilities](docs/devices-and-capabilities.md),
@@ -77,10 +80,12 @@ CI scope and its explicit dependency-aware skip are documented in
 
 ## Current boundary
 
-The public configuration format is available, but evaluation-only KWS model
-weights are not distributed here, in a Debian package, or in an image. A
-compatible legally distributable backend/model package is required before wake
-events can be presented as a public production feature. See
+The public configuration format and wake message contract are available, but
+the current Stage 1 wake producer remains a DEV deployment. Its evaluation-only
+KWS model weights are not distributed here, in a Debian package, or in an
+image. Ordinary public users cannot obtain wake events by following only this
+README. A compatible legally distributable backend/model package is required
+before wake events can be presented as a public production feature. See
 [PUBLIC_RELEASE_BOUNDARY.md](PUBLIC_RELEASE_BOUNDARY.md).
 
 This repository does not yet contain a formal license. See

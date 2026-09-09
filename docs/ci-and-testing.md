@@ -3,6 +3,7 @@
 公开 CI 执行：
 
 - Python/XML/TSV 和 shell 语法检查；
+- 不依赖 ROS、provider 或硬件的 formatter 单元测试（始终运行）；
 - 常见内网地址、真实开发路径、真实序列号、密钥和模型工件扫描；
 - 确认示例依赖 `xraudio_ros2_bridge`，且仓库没有复制 `.msg`；
 - 当 runner 同时具备 ROS 2 Jazzy 和公开可安装的 Bridge provider 时，运行真实
@@ -11,6 +12,12 @@
 当前 GitHub 托管 runner 没有厂商 Bridge 二进制消息包，因此 colcon 步骤会明确输出
 `SKIP`。它不下载私有依赖，不生成假的消息包，也不能作为硬件、Runtime、DOA 或
 唤醒词通过的证据。
+
+纯 Python 测试不使用特殊环境变量，可在仓库根目录直接运行：
+
+```bash
+(cd xraudio_examples && python3 -m unittest discover -s test -v)
+```
 
 完整 ROS 验证应在安装了发布版 `xraudio-ros2-bridge` 的 Jazzy 系统上运行：
 
