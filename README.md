@@ -88,6 +88,8 @@ README. A compatible legally distributable backend/model package is required
 before wake events can be presented as a public production feature. See
 [PUBLIC_RELEASE_BOUNDARY.md](PUBLIC_RELEASE_BOUNDARY.md).
 
-This repository does not yet contain a formal license. See
-[LICENSE_DECISION.md](LICENSE_DECISION.md) before copying or redistributing its
-contents.
+The source and documentation in this repository are available under the
+[Apache License 2.0](LICENSE), including commercial use subject to its terms.
+See [NOTICE](NOTICE) for attribution and trademark information. The license
+does not cover separately distributed private Runtime, SDK, firmware, model,
+or production-tool components.

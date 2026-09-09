@@ -76,5 +76,7 @@ ros2 launch xraudio_examples monitor.launch.py \
 下载。普通公开用户不能只依靠本 README 获得 wake 事件。只有安装了许可明确、与
 Runtime 兼容的 backend/model 包后，才能把唤醒事件作为公开产品能力交付。
 
-完整边界见 [PUBLIC_RELEASE_BOUNDARY.md](PUBLIC_RELEASE_BOUNDARY.md)。本仓库暂未
-选择正式开源许可证；复制或再分发前请阅读 [LICENSE_DECISION.md](LICENSE_DECISION.md)。
+完整边界见 [PUBLIC_RELEASE_BOUNDARY.md](PUBLIC_RELEASE_BOUNDARY.md)。本仓库内发布
+的源码和文档采用 [Apache License 2.0](LICENSE)，允许在遵守许可证条款的前提下
+商用。归属与商标说明见 [NOTICE](NOTICE)；独立分发的私有 Runtime、SDK、固件、
+模型和生产工具不因与本仓库互操作而自动进入该许可证范围。

@@ -1,4 +1,7 @@
 #!/bin/sh
+# Copyright 2026 Shenzhen XiaoR Geek Technology Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
 set -eu
 
 usage() {

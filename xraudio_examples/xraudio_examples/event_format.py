@@ -1,3 +1,6 @@
+# Copyright 2026 Shenzhen XiaoR Geek Technology Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
 """Convert ROS messages to bounded, human-readable JSON records."""
 
 from collections.abc import Mapping, Sequence

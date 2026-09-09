@@ -1,24 +1,19 @@
-# License decision pending
+# License decision
 
-This repository currently has no formal open-source license. Copyright remains
-with the repository owner, and public visibility alone does not grant reuse or
-redistribution rights.
+The project owner selected the Apache License, Version 2.0 for the original
+source, configuration, examples, and documentation published in this
+repository. Commercial use is permitted under that license. See
+[`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
 
-## Recommended option
+Copyright 2026 Shenzhen XiaoR Geek Technology Co., Ltd.
 
-Apache License 2.0 is the recommended candidate for the public ROS 2 examples,
-launch files, and documentation because it is permissive, includes an express
-patent grant, and is common in the ROS ecosystem.
+The license applies to material actually published in this repository. It does
+not grant rights to separately distributed Runtime, SDK, firmware, model
+weights, production tools, keys, or other private components merely because
+the public examples interoperate with them.
 
-Before adding `LICENSE`, the project owner should confirm:
-
-1. the company is authorized to publish every committed file;
-2. contributor and copyright notices use the intended legal entity;
-3. the patent grant is acceptable;
-4. third-party snippets and generated artifacts have compatible licenses;
-5. public examples remain separated from proprietary Runtime, SDK, firmware,
-   models, keys, and production tooling.
-
-MIT would be simpler but has no comparable explicit patent grant. GPL-family
-licenses would impose reciprocal obligations that may not match the intended
-binary Runtime boundary. No choice is made by this document.
+Apache-2.0 does not grant trademark rights. XiaoR GEEK, XR-AUD, related logos,
+and product identifiers may be used only as allowed by applicable trademark
+law and the license's reasonable and customary origin-description exception.
+Use of the code must not imply official certification, endorsement, or
+affiliation.

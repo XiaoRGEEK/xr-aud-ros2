@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
+# Copyright 2026 Shenzhen XiaoR Geek Technology Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
 """Fail on obvious private artifacts and validate the public source skeleton."""
 
 from pathlib import Path
+import hashlib
 import py_compile
 import re
 import sys
@@ -33,6 +37,9 @@ SENSITIVE_PATTERNS = {
     "GitHub token": re.compile(r"\bgh[opsu]_[A-Za-z0-9_]{20,}\b"),
     "private key": re.compile(r"BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY"),
 }
+APACHE_2_LICENSE_SHA256 = (
+    "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+)
 
 
 def tracked_candidates():
@@ -81,11 +88,31 @@ def verify_keyword_example(errors):
             errors.append(f"keyword example line {number} must have six fields")
 
 
+def verify_license(errors):
+    license_bytes = (ROOT / "LICENSE").read_bytes()
+    if hashlib.sha256(license_bytes).hexdigest() != APACHE_2_LICENSE_SHA256:
+        errors.append("LICENSE is not the unmodified Apache License 2.0 text")
+
+    notice = (ROOT / "NOTICE").read_text(encoding="utf-8")
+    if "Copyright 2026 Shenzhen XiaoR Geek Technology Co., Ltd." not in notice:
+        errors.append("NOTICE is missing the approved copyright holder")
+    if "not grant permission" not in notice:
+        errors.append("NOTICE is missing the trademark boundary")
+
+    package_xml = (ROOT / "xraudio_examples/package.xml").read_text(encoding="utf-8")
+    setup_py = (ROOT / "xraudio_examples/setup.py").read_text(encoding="utf-8")
+    if "<license>Apache-2.0</license>" not in package_xml:
+        errors.append("package.xml must declare Apache-2.0")
+    if 'license="Apache-2.0"' not in setup_py:
+        errors.append("setup.py must declare Apache-2.0")
+
+
 def main():
     errors = []
     verify_no_private_material(errors)
     verify_package(errors)
     verify_keyword_example(errors)
+    verify_license(errors)
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)

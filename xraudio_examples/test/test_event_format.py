@@ -1,3 +1,6 @@
+# Copyright 2026 Shenzhen XiaoR Geek Technology Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
 """Test that the example preserves bridge validity semantics."""
 
 from types import SimpleNamespace

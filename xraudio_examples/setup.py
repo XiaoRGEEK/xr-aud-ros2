@@ -1,3 +1,6 @@
+# Copyright 2026 Shenzhen XiaoR Geek Technology Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
 from glob import glob
 from setuptools import find_packages, setup
 
@@ -20,7 +23,7 @@ setup(
     maintainer="XR-AUD maintainers",
     maintainer_email="maintainers@example.invalid",
     description="Read-only ROS 2 examples for the installed XR Audio bridge.",
-    license="To be determined; see LICENSE_DECISION.md",
+    license="Apache-2.0",
     url="https://github.com/XiaoRGEEK/xr-aud-ros2",
     entry_points={
         "console_scripts": [

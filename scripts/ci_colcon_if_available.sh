@@ -1,4 +1,7 @@
 #!/bin/bash
+# Copyright 2026 Shenzhen XiaoR Geek Technology Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
 set -euo pipefail
 
 if [[ ! -r /opt/ros/jazzy/setup.bash ]]; then

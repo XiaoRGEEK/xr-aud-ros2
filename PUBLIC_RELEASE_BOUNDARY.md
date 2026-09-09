@@ -9,6 +9,9 @@
 - user-facing installation and troubleshooting documentation;
 - checks that run without hardware or private assets.
 
+The original material published in this repository is licensed under the
+Apache License, Version 2.0 and may be used commercially under its terms.
+
 ## Required binary providers
 
 Advanced functions are provided as separately installed binary packages:
@@ -52,3 +55,11 @@ are not. This repository does not imply redistribution permission for any
 third-party or internally evaluated model. A later public release must name the
 model license, immutable identity, hashes, installation source, and supported
 keyword limits before claiming a packaged wake feature.
+
+## Trademarks
+
+Apache-2.0 does not grant a trademark license for XiaoR GEEK, XR-AUD, related
+logos, or product identifiers. Reasonable and customary use to describe the
+origin of this work is permitted by the license; use must not imply official
+certification, endorsement, or affiliation. This statement does not add a
+restriction on use of the licensed code.

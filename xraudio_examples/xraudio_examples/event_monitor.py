@@ -1,3 +1,6 @@
+# Copyright 2026 Shenzhen XiaoR Geek Technology Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
 """Subscribe to the installed XR Audio bridge without opening audio devices."""
 
 import json
