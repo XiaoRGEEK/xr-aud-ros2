@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>xraudio_examples</name>
+  <version>0.1.0</version>
+  <description>Read-only ROS 2 examples for the installed XR Audio bridge.</description>
+  <maintainer email="maintainers@example.invalid">XR-AUD maintainers</maintainer>
+  <license>To be determined; see LICENSE_DECISION.md</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>xraudio_ros2_bridge</exec_depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

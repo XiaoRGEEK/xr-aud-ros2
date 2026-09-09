@@ -1,0 +1,22 @@
+name: Public source checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify public boundary and source syntax
+        run: python3 scripts/verify_public_tree.py
+      - name: Check shell syntax
+        run: |
+          sh -n scripts/install.sh
+          bash -n scripts/ci_colcon_if_available.sh
+      - name: Run dependency-aware ROS build
+        run: scripts/ci_colcon_if_available.sh

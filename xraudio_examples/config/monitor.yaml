@@ -1,0 +1,7 @@
+/**:
+  ros__parameters:
+    topic_prefix: /xraudio
+    expected_serial: ""
+    print_status: true
+    print_doa: true
+    print_wake: true
