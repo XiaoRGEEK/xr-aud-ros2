@@ -3,11 +3,13 @@
 Public ROS 2 integration, configuration examples, and deployment guidance for
 the XR-AUD product family.
 
-This repository is **not a Linux audio driver**. XR-AUD Standard Audio uses the
-USB Audio Class supported by Linux: Clean Voice is a normal microphone source
-and the stereo speaker is a normal audio sink. The optional XR Audio Runtime
-and `xraudio-ros2-bridge` binary packages provide advanced, read-only ROS 2
-events such as status, direction of arrival (DOA), and wake phrase direction.
+This repository is **not a Linux audio driver or the ROS event provider**.
+XR-AUD Standard Audio uses the USB Audio Class supported by Linux: Clean Voice
+is a normal microphone source and the stereo speaker is a normal audio sink.
+Separately supplied XR Audio Runtime and `xraudio-ros2-bridge` binary packages
+own the advanced processing and publish read-only ROS 2 events such as status,
+direction of arrival (DOA), and wake phrase direction. This repository contains
+subscriber examples for those events.
 
 [中文说明](README.zh-CN.md)
 
@@ -39,18 +41,34 @@ message definitions and allowing the two contracts to drift.
 
 ## Quick start
 
-Prerequisites:
+The currently verified advanced baseline is **Raspberry Pi 5, Ubuntu 24.04
+ARM64, and ROS 2 Jazzy**. Standard USB Audio may enumerate on more class-
+compliant Linux systems, but that does not imply that the advanced Runtime,
+DOA, wake, or ROS 2 stack has been qualified there.
 
-- Ubuntu 24.04 or a compatible ARM64 Linux distribution;
-- ROS 2 Jazzy;
-- an XR-AUD device and, for advanced features, vendor-provided Runtime and
-  bridge packages installed from an operator-configured package source.
+The online APT/DEB channel is still in deployment testing and is not a stable
+public installation route. Authorized internal/evaluation users should contact
+XRGEEK through their existing product or support channel for the offline
+**XR-AUD-02 DEV v0.2.0** ZIP and its release-specific instructions. The bundle
+provides the proprietary SDK, Runtime, ROS provider, and separately governed
+backend/model assets; none of them is stored in this public repository.
 
-Standard Audio needs no repository-specific driver. For advanced ROS 2 use:
+After installing and enabling that provider exactly as described by the
+offline release, verify the provider before building this repository:
 
 ```bash
-sudo apt install xraudio-runtime xraudio-ros2-bridge
+source /opt/ros/jazzy/setup.bash
+ros2 topic list -t | grep '^/xraudio/'
+ros2 topic echo --once /xraudio/status \
+  xraudio_ros2_bridge/msg/RuntimeStatus
+```
 
+The commands above test the provider installed by the offline DEB bundle; they
+do not run code from this GitHub repository. Once `/xraudio/status`,
+`/xraudio/doa`, and (for a configured Stage 1 profile) `/xraudio/wake` are
+available, build and run the public subscriber example:
+
+```bash
 source /opt/ros/jazzy/setup.bash
 mkdir -p ~/xr_aud_ws/src
 git clone https://github.com/XiaoRGEEK/xr-aud-ros2.git \
@@ -65,9 +83,9 @@ ros2 launch xraudio_examples monitor.launch.py \
 
 The example is a subscriber only. It does not start the proprietary Runtime,
 open Raw-8, change the default microphone/speaker, or implement DOA/KWS.
-After the binary provider is installed and configured, the public example can
-consume status and DOA. The command above does **not** install or enable a KWS
-backend/model and therefore does not, by itself, produce wake events.
+It also does **not** install or enable a KWS backend/model. Wake events require
+an installed Stage 1 provider, model assets supplied under their own terms,
+and a validated keyword configuration.
 
 See [Installation](docs/installation.md),
 [devices and capabilities](docs/devices-and-capabilities.md),
@@ -81,12 +99,12 @@ CI scope and its explicit dependency-aware skip are documented in
 ## Current boundary
 
 The public configuration format and wake message contract are available, but
-the current Stage 1 wake producer remains a DEV deployment. Its evaluation-only
-KWS model weights are not distributed here, in a Debian package, or in an
-image. Ordinary public users cannot obtain wake events by following only this
-README. A compatible legally distributable backend/model package is required
-before wake events can be presented as a public production feature. See
-[PUBLIC_RELEASE_BOUNDARY.md](PUBLIC_RELEASE_BOUNDARY.md).
+the current Stage 1 wake producer remains a controlled DEV deployment. Model
+assets are not distributed in this repository, a public Debian repository, or
+an image. Following only this README cannot create wake events. A compatible,
+authorized backend/model package is required. The offline DEV bundle is for
+authorized evaluation and is not a declaration of public production support.
+See [PUBLIC_RELEASE_BOUNDARY.md](PUBLIC_RELEASE_BOUNDARY.md).
 
 The source and documentation in this repository are available under the
 [Apache License 2.0](LICENSE), including commercial use subject to its terms.

@@ -56,6 +56,13 @@ third-party or internally evaluated model. A later public release must name the
 model license, immutable identity, hashes, installation source, and supported
 keyword limits before claiming a packaged wake feature.
 
+An authorized offline DEV bundle may provide evaluation assets under separate
+terms. That controlled distribution is not a public APT channel, is not covered
+by this repository's Apache-2.0 license, and does not make the assets part of
+this source tree. Contact XRGEEK through the established product/support channel
+for access questions; do not request or attach private packages in public
+issues.
+
 ## Trademarks
 
 Apache-2.0 does not grant a trademark license for XiaoR GEEK, XR-AUD, related

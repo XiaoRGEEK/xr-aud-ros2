@@ -3,10 +3,11 @@
 本仓库是 XR-AUD 系列设备面向用户的 ROS 2 接入入口，提供配置示例、启动文件、
 订阅示例和部署文档。
 
-它**不是 Linux 音频驱动**。XR-AUD 的 Standard Audio 使用 Linux 原生支持的
-USB Audio Class：Clean Voice 是普通麦克风输入，两路 Speaker 是普通音频输出。
-只有状态、声源方向（DOA）、唤醒词方向等高级能力，才需要额外安装二进制
-XR Audio Runtime 和 `xraudio-ros2-bridge`。
+它**不是 Linux 音频驱动，也不是 ROS 事件 provider**。XR-AUD 的 Standard Audio
+使用 Linux 原生支持的 USB Audio Class：Clean Voice 是普通麦克风输入，两路
+Speaker 是普通音频输出。另行提供的二进制 XR Audio Runtime 与
+`xraudio-ros2-bridge` 负责高级处理并发布状态、声源方向（DOA）、唤醒词方向等
+只读 ROS 2 事件；本仓库只提供这些事件的订阅示例。
 
 [English](README.md)
 
@@ -35,12 +36,29 @@ ROS 消息由已安装的 `xraudio_ros2_bridge` 包提供。本仓库不复制�
 
 ## 快速开始
 
-基础 Clean Voice 和 Speaker 不需要安装本仓库中的“驱动”。高级 ROS 2 功能需要
-管理员先配置软件源并安装 Runtime/Bridge：
+当前高级功能经过验证的基线是 **Raspberry Pi 5 + Ubuntu 24.04 ARM64 + ROS 2
+Jazzy**。标准 USB Audio 可能在更多兼容 UAC 的 Linux 系统上直接枚举，但这不代表
+高级 Runtime、DOA、唤醒或 ROS 2 链路已经在这些系统上完成适配验证。
+
+在线 APT/DEB 仓仍在部署测试中，暂时不是稳定的公众安装入口。已授权的内部/评估
+用户请通过既有产品或支持渠道联系 XRGEEK，获取离线 **XR-AUD-02 DEV v0.2.0**
+ZIP 及其版本说明。离线包提供私有 SDK、Runtime、ROS provider，以及受单独条款
+约束的 backend/model；这些内容都不在本公开仓库中。
+
+严格按离线 Release 的说明安装并启用 provider 后，先验证 provider：
 
 ```bash
-sudo apt install xraudio-runtime xraudio-ros2-bridge
+source /opt/ros/jazzy/setup.bash
+ros2 topic list -t | grep '^/xraudio/'
+ros2 topic echo --once /xraudio/status \
+  xraudio_ros2_bridge/msg/RuntimeStatus
+```
 
+以上命令测试的是离线 DEB 安装的 provider，不是在运行本 GitHub 仓库的节点。
+确认 `/xraudio/status`、`/xraudio/doa`，以及已配置 Stage 1 profile 时的
+`/xraudio/wake` 正常后，再编译并运行公开订阅示例：
+
+```bash
 source /opt/ros/jazzy/setup.bash
 mkdir -p ~/xr_aud_ws/src
 git clone https://github.com/XiaoRGEEK/xr-aud-ros2.git \
@@ -56,9 +74,8 @@ ros2 launch xraudio_examples monitor.launch.py \
 示例程序只是订阅者：它不会打开 USB/Raw-8，不会成为第二个采集 owner，不会修改
 默认麦克风和喇叭，也不包含 DOA/KWS 算法。
 
-二进制 provider 安装并正确配置后，公开示例可以直接消费 status 和 DOA。上面的
-命令不会安装或启用 KWS backend/model，因此仅按这份 README 操作不会产生 wake
-事件。
+公开示例不会安装或启用 KWS backend/model。wake 事件需要已经安装 Stage 1
+provider、按各自条款提供的模型资源，以及通过校验的唤醒词配置。
 
 详细内容见：
 
@@ -71,10 +88,10 @@ ros2 launch xraudio_examples monitor.launch.py \
 
 ## 当前公开边界
 
-唤醒词配置格式和消息契约可以公开，但当前 Stage 1 producer 仍是 DEV 部署；用于
-验证的 KWS 模型权重许可尚未完成书面确认，因此不能进入本仓库、DEB、镜像或公开
-下载。普通公开用户不能只依靠本 README 获得 wake 事件。只有安装了许可明确、与
-Runtime 兼容的 backend/model 包后，才能把唤醒事件作为公开产品能力交付。
+唤醒词配置格式和消息契约可以公开，但当前 Stage 1 producer 仍是受控 DEV 部署；
+模型资源不会进入本仓库、公开 DEB 仓或系统镜像。普通公开用户不能只依靠本
+README 获得 wake 事件；必须另行取得兼容且获授权的 backend/model。离线 DEV 包
+只用于已授权评估，不代表已经面向公众承诺生产支持。
 
 完整边界见 [PUBLIC_RELEASE_BOUNDARY.md](PUBLIC_RELEASE_BOUNDARY.md)。本仓库内发布
 的源码和文档采用 [Apache License 2.0](LICENSE)，允许在遵守许可证条款的前提下

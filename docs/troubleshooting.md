@@ -41,8 +41,9 @@ source /opt/ros/jazzy/setup.bash
 ros2 pkg prefix xraudio_ros2_bridge
 ```
 
-如果失败，安装匹配版本的 Bridge DEB。不要从其他仓库复制 `.msg` 文件，因为这样
-可能编译出与运行服务不兼容的消息 hash。
+如果失败，应从已授权的离线 Release 安装匹配版本的 Bridge DEB。在线 APT/DEB 仓
+仍在部署测试，不能假定当前公众环境已经配置该软件源。不要从其他仓库复制 `.msg`
+文件，因为这样可能编译出与运行服务不兼容的消息 hash。
 
 ## 多设备事件混在一起
 
